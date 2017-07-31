@@ -5,7 +5,7 @@ var utils = require('util');
 
 var states = {
     SEARCHMODE: '_SEARCHMODE',
-    DESCRIPTION: '_DESKMODE',
+    DESCRIPTION: '_DESCMODE',
 };
 // local variable holding reference to the Alexa SDK object
 var alexa;
