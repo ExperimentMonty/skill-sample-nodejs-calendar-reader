@@ -11,33 +11,33 @@ var states = {
 var alexa;
 
 //OPTIONAL: replace with "amzn1.ask.skill.[your-unique-value-here]";
-var APP_ID = undefined; 
+var APP_ID = "amzn1.ask.skill.1d46ee42-d3ee-4c6b-a645-a858767e4cd4"; 
 
 // URL to get the .ics from, in this instance we are getting from Stanford however this can be changed
-var URL = "http://events.stanford.edu/eventlist.ics";
+var URL = "https://calendar.google.com/calendar/ical/amaverify%40gmail.com/public/basic.ics";
 
 // Skills name 
-var skillName = "Events calendar:";
+var skillName = "AMA events calendar:";
 
 // Message when the skill is first called
-var welcomeMessage = "You can ask for the events today. Search for events by date. or say help. What would you like? ";
+var welcomeMessage = "You can ask for the AMA events today. Search for events by date. or say help. What would you like? ";
 
 // Message for help intent
-var HelpMessage = "Here are some things you can say: Is there an event today? Is there an event on the 18th of July? What are the events next week? Are there any events tomorrow?  What would you like to know?";
+var HelpMessage = "Here are some things you can say: Is there an AMA today? Is there an AMA on the 18th of July? What are the AMAs next week? Are there any AMAs tomorrow?  What would you like to know?";
 
 var descriptionStateHelpMessage = "Here are some things you can say: Tell me about event one";
 
 // Used when there is no data within a time period
-var NoDataMessage = "Sorry there aren't any events scheduled. Would you like to search again?";
+var NoDataMessage = "Sorry there aren't any AMA events scheduled. Would you like to search again?";
 
 // Used to tell user skill is closing
 var shutdownMessage = "Ok see you again soon.";
 
 // Message used when only 1 event is found allowing for difference in punctuation 
-var oneEventMessage = "There is 1 event ";
+var oneEventMessage = "There is 1 AMA event ";
 
 // Message used when more than 1 event is found allowing for difference in punctuation 
-var multipleEventMessage = "There are %d events ";
+var multipleEventMessage = "There are %d AMA events ";
 
 // text used after the number of events has been said
 var scheduledEventMessage = "scheduled for this time frame. I've sent the details to your Alexa app: ";
@@ -45,10 +45,10 @@ var scheduledEventMessage = "scheduled for this time frame. I've sent the detail
 var firstThreeMessage = "Here are the first %d. ";
 
 // the values within the {} are swapped out for variables
-var eventSummary = "The %s event is, %s at %s on %s ";
+var eventSummary = "The %s event is, %s on %s ";
 
 // Only used for the card on the companion app
-var cardContentSummary = "%s at %s on %s ";
+var cardContentSummary = "%s on %s ";
 
 // More info text
 var haveEventsRepromt = "Give me an event number to hear more information.";
@@ -68,7 +68,7 @@ var killSkillMessage = "Ok, great, see you next time.";
 var eventNumberMoreInfoText = "You can say the event number for more information.";
 
 // used for title on companion app
-var cardTitle = "Events";
+var cardTitle = "AMAs";
 
 // output for Alexa
 var output = "";
@@ -124,7 +124,6 @@ var startSearchHandlers = Alexa.CreateStateHandler(states.SEARCHMODE, {
                         // Pick out the data relevant to us and create an object to hold it.
                         var eventData = {
                             summary: removeTags(ev.summary),
-                            location: removeTags(ev.location),
                             description: removeTags(ev.description),
                             start: ev.start
                         };
@@ -160,20 +159,20 @@ var startSearchHandlers = Alexa.CreateStateHandler(states.SEARCHMODE, {
 
                             if (relevantEvents[0] != null) {
                                 var date = new Date(relevantEvents[0].start);
-                                output += utils.format(eventSummary, "First", removeTags(relevantEvents[0].summary), relevantEvents[0].location, date.toDateString() + ".");
+                                output += utils.format(eventSummary, "First", removeTags(relevantEvents[0].summary), date.toDateString() + ".");
                             }
                             if (relevantEvents[1]) {
                                 var date = new Date(relevantEvents[1].start);
-                                output += utils.format(eventSummary, "Second", removeTags(relevantEvents[1].summary), relevantEvents[1].location, date.toDateString() + ".");
+                                output += utils.format(eventSummary, "Second", removeTags(relevantEvents[1].summary), date.toDateString() + ".");
                             }
                             if (relevantEvents[2]) {
                                 var date = new Date(relevantEvents[2].start);
-                                output += utils.format(eventSummary, "Third", removeTags(relevantEvents[2].summary), relevantEvents[2].location, date.toDateString() + ".");
+                                output += utils.format(eventSummary, "Third", removeTags(relevantEvents[2].summary), date.toDateString() + ".");
                             }
 
                             for (var i = 0; i < relevantEvents.length; i++) {
                                 var date = new Date(relevantEvents[i].start);
-                                cardContent += utils.format(cardContentSummary, removeTags(relevantEvents[i].summary), removeTags(relevantEvents[i].location), date.toDateString()+ "\n\n");
+                                cardContent += utils.format(cardContentSummary, removeTags(relevantEvents[i].summary), date.toDateString()+ "\n\n");
                             }
 
                             output += eventNumberMoreInfoText;
@@ -194,7 +193,7 @@ var startSearchHandlers = Alexa.CreateStateHandler(states.SEARCHMODE, {
             });
         }
         else{
-            this.emit(":ask", "I'm sorry.  What day did you want me to look for events?", "I'm sorry.  What day did you want me to look for events?");
+            this.emit(":ask", "I'm sorry.  What day did you want me to look for AMA events?", "I'm sorry.  What day did you want me to look for AMA events?");
         }
     },
 
@@ -224,7 +223,7 @@ var startSearchHandlers = Alexa.CreateStateHandler(states.SEARCHMODE, {
 var descriptionHandlers = Alexa.CreateStateHandler(states.DESCRIPTION, {
     'eventIntent': function () {
 
-        var repromt = " Would you like to hear another event?";
+        var repromt = " Would you like to hear another AMA event?";
         var slotValue = this.event.request.intent.slots.number.value;
 
         // parse slot value
