@@ -103,10 +103,6 @@ var startSearchHandlers = Alexa.CreateStateHandler(states.SEARCHMODE, {
         this.emit(':tell', shutdownMessage);
     },
 
-    'AMAZON.RepeatIntent': function () {
-        this.emit(':ask', output, HelpMessage);
-    },
-
     'searchIntent': function () {
         // Declare variables 
         var eventList = new Array();
